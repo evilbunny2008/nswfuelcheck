@@ -1,0 +1,8 @@
+[Desktop Entry]
+_Name=Fuel Check
+Exec=qmlscene qml/Main.qml
+Icon=assets/fuel.svg
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
+X-Ubuntu-Splash-Color=#F5F5F5
