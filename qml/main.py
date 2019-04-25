@@ -1,17 +1,19 @@
 """ Manipulate marker images to display the cost as well """
 
 import io
+import sys
 
-rqsts = True
+RQSTS = True
 NOOS = False
 
 try:
     import requests
 except ImportError as err:
     print(err)
-    rqsts = False
+    RQSTS = False
 
 try:
+    sys.path.append('../PIL/')
     from PIL import Image, ImageDraw, ImageFont
 except ImportError as err:
     print(err)
@@ -59,7 +61,7 @@ def load_data(image_id, requested_size):
 
 def get_noos():
     """ Let the app know if image library is installed or not... """
-    return NOOS, rqsts
+    return NOOS, RQSTS
 
 def download_json(trlat, bllon, bllat, trlon, fueltype):
     """ Download json string from server based on a bounding box """
