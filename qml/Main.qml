@@ -22,7 +22,7 @@ MainView {
     property var noos: false
     property var rqsts: false
     property var booted: false
-    property var gpsLock: false
+    property var gpsLock: 0
 
     Plugin {
         id: osmMapPlugin
@@ -50,6 +50,18 @@ MainView {
             call("main.get_noos", [], function(results) {
                 noos = results[0]
                 rqsts = results[1]
+                if(results[5] != "")
+                    fueltype = results[5]
+                if(results[6]!= "")
+                    gpsLock = !results[6]
+                gpsToggle()
+                updateFuelType()
+                
+                if(results[2] != "") {
+                    map.center = QtPositioning.coordinate(results[2], results[3])
+                    map.zoomLevel = results[4]
+                }
+
                 booted = true
                 mapTimer.running = true
             })
@@ -186,8 +198,13 @@ MainView {
             }
 
             onCurrentIndexChanged: {
-                if(currentIndex == -1)
+                if(currentIndex < 0)
                     currentIndex = 0
+                else if(currentIndex > 10)
+                    currentIndex = 0
+
+                if(booted)
+                    pytest.call("main.save_config", [map.center.latitude, map.center.longitude, map.zoomLevel, fueltype, gpsLock], function(results) {})
 
                 listControl.currentIndex = currentIndex
                 mapControl.displayText = textAt(currentIndex)
@@ -553,8 +570,13 @@ MainView {
             }
 
             onCurrentIndexChanged: {
-                if(currentIndex == -1)
+                if(currentIndex < 0)
                     currentIndex = 0
+                else if(currentIndex > 10)
+                    currentIndex = 0
+
+                if(booted)
+                    pytest.call("main.save_config", [map.center.latitude, map.center.longitude, map.zoomLevel, fueltype, gpsLock], function(results) {})
 
                 mapControl.currentIndex = currentIndex
                 mapControl.displayText = textAt(currentIndex)
@@ -643,16 +665,19 @@ MainView {
 
     function gpsToggle() {
         if(gpsLock) {
-            gpsLock = false
+            gpsLock = 0
             positionSource.stop()
             gps1.iconSource = "../assets/gps_empty.svg"
             gps2.iconSource = "../assets/gps_empty.svg"
         } else {
-            gpsLock = true
+            gpsLock = 1
             positionSource.start()
             gps1.iconSource = "../assets/gps_target.svg"
             gps2.iconSource = "../assets/gps_target.svg"
         }
+
+        if(booted)
+            pytest.call("main.save_config", [map.center.latitude, map.center.longitude, map.zoomLevel, fueltype, gpsLock], function(results) {})
     }
 
     function switchDisplay() {
@@ -699,6 +724,8 @@ MainView {
         Component.onDestruction: {
             console.log("stopping gps before exiting...")
             positionSource.stop()
+            if(booted)
+                pytest.call("main.save_config", [map.center.latitude, map.center.longitude, map.zoomLevel, fueltype, gpsLock], function(results) {})
         }
     }
 
@@ -729,6 +756,54 @@ MainView {
                 }
             };
             xhr.send();
+        }
+
+        if(booted)
+            pytest.call("main.save_config", [map.center.latitude, map.center.longitude, map.zoomLevel, fueltype, gpsLock], function(results) {})
+    }
+
+    function dodd(myid, mystr) {
+        mapControl.currentIndex = myid
+        mapControl.displayText = mystr
+        listControl.currentIndex = myid
+        listControl.displayText = mystr
+    }
+    
+    function updateFuelType() {
+        switch(fueltype) {
+            case "U91":
+                dodd(0, "Unleaded 91")
+                break
+            case "E10":
+                dodd(1, "Ethanol 94 (E10)")
+                break
+            case "E85":
+                dodd(2, "Ethanol 105 (E85)")
+                break
+            case "P95":
+                dodd(3, "Premium 95")
+                break
+            case "P98":
+                dodd(4, "Premium 98")
+                break
+            case "DL":
+                dodd(5, "Diesel")
+                break
+            case "PDL":
+                dodd(6, "Premium Diesel")
+                break
+            case "B20":
+                dodd(7, "Biodiesel 20")
+                break
+            case "LPG":
+                dodd(8, "LPG")
+                break
+            case "CNG":
+                dodd(9, "CNG/NGV")
+                break
+            case "EV":
+                dodd(10, "EV charge")
+                break
         }
     }
 

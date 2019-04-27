@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nswfuelcheck.evilbunny\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-25 01:26+0000\n"
+"POT-Creation-Date: 2019-04-27 13:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../qml/Main.qml:78 ../qml/Main.qml:444
+#: ../qml/Main.qml:90 ../qml/Main.qml:461
 msgid "NSW Fuel Check"
 msgstr ""
 
