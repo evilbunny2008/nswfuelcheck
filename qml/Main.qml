@@ -50,12 +50,19 @@ MainView {
             call("main.get_noos", [], function(results) {
                 noos = results[0]
                 rqsts = results[1]
-                if(results[5] != "")
+                
+                if(results[5] != "") {
                     fueltype = results[5]
-                if(results[6]!= "")
-                    gpsLock = !results[6]
-                gpsToggle()
-                updateFuelType()
+                    updateFuelType()
+                }
+
+                if(results[6] != "") {
+                    if(results[6] == 0)
+                        gpsLock = 1
+                    else
+                        gpsLock = 0
+                    gpsToggle()
+                }
                 
                 if(results[2] != "") {
                     map.center = QtPositioning.coordinate(results[2], results[3])
@@ -87,7 +94,7 @@ MainView {
 
         header: PageHeader {
             id: mapHeader
-            title: i18n.tr('NSW Fuel Check')
+            title: 'NSW Fuel Check'
 
             trailingActionBar {
                 actions: [
@@ -458,7 +465,7 @@ MainView {
 
         header: PageHeader {
             id: listHeader
-            title: i18n.tr('NSW Fuel Check')
+            title: 'NSW Fuel Check'
 
             trailingActionBar {
                 actions: [
