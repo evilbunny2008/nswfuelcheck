@@ -11,7 +11,6 @@ MainView {
     id: root
     objectName: 'mainView'
     applicationName: 'nswfuelcheck.evilbunny'
-    automaticOrientation: true
 
     width: units.gu(45)
     height: units.gu(75)
@@ -177,9 +176,7 @@ MainView {
                 width: parent.width
                 text: "Okay"
                 color: "#3eb34f"
-                onClicked: {
-                    aboutPopup1.close()
-                }
+                onClicked: aboutPopup1.close()
             }
         }
 

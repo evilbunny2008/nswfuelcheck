@@ -1,7 +1,7 @@
 {
     "name": "nswfuelcheck.evilbunny",
     "description": "NSW Fuel Prices",
-    "architecture": "armhf",
+    "architecture": "@CLICK_ARCH@",
     "title": "Fuel Check",
     "hooks": {
         "NSWFuelCheck": {
@@ -9,7 +9,7 @@
             "desktop":  "NSWFuelCheck.desktop"
         }
     },
-    "version": "0.0.5",
+    "version": "0.0.6",
     "maintainer": "Evil Bunny <evilbunny@evilbunny.org>",
     "framework" : "ubuntu-sdk-16.04"
 }
